@@ -3,7 +3,7 @@ package utils;
 public class Constants {
 
 
-    public static final String JSON_PATH = "src/test/resources/data/userData.json";
+    public static final String JSON_PATH = "src/test/resources/userData.json";
     public static final String WELCOME_LOCATOR = "//android.widget.TextView[@text=\"Hola %s,\"]";
     public static final String TEXT_IN_FIRST_LANDINGPAGE = "Somos K12, potenciando el aprendizaje personalizado de alta calidad. Aprovechamos al máximo la tecnología para apoyar la enseñanza inspirada y el plan de estudios interactivo, para que los estudiantes puedan aprender de la manera que les funcione. Más de un millón de estudiantes han elegido escuelas con tecnología K12. ¿Tú también serás UNO?";
     public static final String TEXT_IN_SECOND_LANDINGPAGE = "Los estudiantes de K–12 pueden hacerse cargo de su aprendizaje con una escuela con matrícula gratuita K12. Tenemos opciones para todos, sin importar quién o dónde se encuentre. ¡Prepárate para amar el aprendizaje con K12!";
@@ -23,6 +23,7 @@ public class Constants {
     public static final String OPTION_GRADE_SELECTOR = "//ion-alert//div[contains(text(),'%s')]/ancestor::button";
     public static final String SCHOOL_NAMES_LOCATOR = "https://www.k12.com/content/dam/k12/icons/school-finder/logos/";
     public static final String SELECT_GUARDIAN_ACCOUNT = "ELEGIR CUENTA DE TUTOR";
+    public static final String SELECT_MENTOR_ACCOUNT = "ELEGIR CUENTA DE MENTOR";
     public static final String CREATE_AN_ACCOUNT = "Create an account";
 
 }

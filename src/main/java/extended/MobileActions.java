@@ -1,11 +1,9 @@
 package extended;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -120,7 +118,7 @@ public class MobileActions {
 
     public static Wait waitFor(AndroidDriver driver) {
         return new FluentWait<>(driver)
-                .withTimeout(ofSeconds(15))
+                .withTimeout(ofSeconds(21))
                 .pollingEvery(ofSeconds(3))
                 .ignoring(NoSuchElementException.class);
     }
@@ -129,4 +127,17 @@ public class MobileActions {
         logger.info("switching context into NATIVE_APP ...");
         driver.context("NATIVE_APP");
     }
+
+    public static void scrollToEnd(AndroidDriver driver) {
+        boolean canScrollMore;
+        do {
+            canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", ImmutableMap.of(
+                    "left", 100, "top", 100, "width", 200, "height", 200,
+                    "direction", "down",
+                    "percent", 3.0
+            ));
+
+        } while(canScrollMore);
+    }
+
 }

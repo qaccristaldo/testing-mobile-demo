@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import pages.base.BasePage;
 
+import pages.base.DashboardPageBase;
 import utils.Constants;
 import utils.MyLogger;
 
@@ -21,7 +22,7 @@ import static extended.MobileActions.waitFor;
 
 
 @Getter
-public class DashboardPage extends BasePage {
+public class DashboardPage extends DashboardPageBase {
 
     private AndroidDriver driver;
     @AndroidFindBy(uiAutomator = "new UiSelector().text(\"Lo haré mas tarde\")")

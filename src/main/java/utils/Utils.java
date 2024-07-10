@@ -57,7 +57,7 @@ public class Utils {
     }
 
     public static String generateRandomEmail(int length){
-        String tail = "@qa-team.com";
+        String tail = "@qa-team.org";
         return
                 generateRandomAlphaString(12).concat(tail);
     }

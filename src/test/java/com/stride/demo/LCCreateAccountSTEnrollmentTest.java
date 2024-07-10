@@ -1,7 +1,5 @@
 package com.stride.demo;
 
-import extended.MobileActions;
-import pages.enrollment.EnrollmentPage;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -10,10 +8,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
+import pages.DashboardPage;
 import pages.LoginPage;
 import pages.base.BasePage;
 import pages.carrousel.WhoWeArePage;
+import pages.enrollment.EnrollmentPage;
 import pages.enrollment.TellAboutYourStudentPage;
+import pages.lccreateaccount.CreateAnAccountMENTORPage;
+import pages.lccreateaccount.CreateLCAccountPage;
 import pages.lgcreateaccount.ChooseRolePage;
 import pages.lgcreateaccount.CreateLGAccountPage;
 import pages.lgcreateaccount.GettingStartedLGPage;
@@ -35,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.GetProperty.getProperties;
 import static utils.Utils.forceWait;
 
-public class LGCreateAccountSTEnrollmentTest  extends MobileActions {
+public class LCCreateAccountSTEnrollmentTest {
 
 
     private AndroidDriver driver;
@@ -45,8 +47,9 @@ public class LGCreateAccountSTEnrollmentTest  extends MobileActions {
     static LoginPage loginPage;
     static ChooseRolePage chooseRolePage;
     static GettingStartedLGPage gettingStartedLGPage;
-    static CreateLGAccountPage createLGAccountPage;
-    static EnrollmentPage enrollmentPage;
+    static CreateLCAccountPage createLCAccountPage;
+    static CreateAnAccountMENTORPage createAnAccountMENTORPage;
+    static DashboardPage dashboardPage;
     static TellAboutYourStudentPage tellAboutYourStudentPage;
 
     @BeforeEach
@@ -109,38 +112,24 @@ public class LGCreateAccountSTEnrollmentTest  extends MobileActions {
         assertTrue(loginPage.isOpen());
         chooseRolePage = loginPage.clickOnDontHaveAnAccountYet();
         assertTrue(chooseRolePage.isOpen());
-        gettingStartedLGPage = chooseRolePage.clickOnSelectLGRoleButton();
+        gettingStartedLGPage = chooseRolePage.clickOnSelectLCRoleButton();
+
         assertTrue(gettingStartedLGPage.isOpen());
-        createLGAccountPage = gettingStartedLGPage.clickOnCreateAccountButton();
-        switchForceNativeApp(driver);
-        assertTrue(createLGAccountPage.isOpen());
+        createLCAccountPage = gettingStartedLGPage.clickOnCreateLCAccountButton();
 
-        enrollmentPage = createLGAccountPage
-                .setFirstNameInput()
-                .setLastNameInput()
-                .setEmailInput()
-                .setPasswordInput()
-                .setSecurityQuestion1()
-                .setSecurityQuestion2()
-                .setCountry()
-                .setState()
-                .setPhone()
-                .setOptToReceiveMsg()
-                .clickOnSignUpButton();
+        createLCAccountPage.setRegidInput();
+        createAnAccountMENTORPage = createLCAccountPage.clickOnContinueButton();
 
-        assertTrue(enrollmentPage.isOpen());
+        createAnAccountMENTORPage
+                .createUsername()
+                .setNewMail()
+                .setHomePhone()
+                .setPassword()
+                .setSecQuestion();
 
-        tellAboutYourStudentPage = enrollmentPage
-                .selectStudent()
-                .clickOnNextButton();
+        dashboardPage = createAnAccountMENTORPage.clickOnContinueButton();
 
-        forceWait(5000);
-
-        System.out.println(tellAboutYourStudentPage.getMainLabel().isDisplayed());
-        assertTrue(tellAboutYourStudentPage.isOpen());
-        switchForceNativeApp(driver);
-        tellAboutYourStudentPage
-                .setFirstName();
+        System.out.println(dashboardPage.isOpen("Test"));
 
 
     }

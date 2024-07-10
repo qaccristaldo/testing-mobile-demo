@@ -1,5 +1,6 @@
 package com.stride.demo;
 
+import extended.MobileActions;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -13,7 +14,10 @@ import static utils.Utils.forceWait;
 import static utils.Utils.getUser;
 
 import org.slf4j.Logger;
+import pages.DashboardPage;
+import pages.LoginPage;
 import pages.base.BasePage;
+import pages.carrousel.WhoWeArePage;
 import utils.MyLogger;
 
 import java.io.File;
@@ -28,13 +32,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 
-public class LoginTest {
+public class LoginTest extends MobileActions {
 
 
     private AndroidDriver driver;
     static Logger logger = MyLogger.getLogger();
     User user;
     static BasePage basePage;
+    static LoginPage loginPage;
+    static WhoWeArePage whoWeArePage;
+    static DashboardPage dashboardPage;
 
     @BeforeEach
     public void setUp() {
@@ -64,6 +71,7 @@ public class LoginTest {
                         .withVideoSize("1280x720")
                         .withTimeLimit(Duration.ofSeconds(1800)));
         basePage = new BasePage(driver);
+        whoWeArePage = new WhoWeArePage(driver);
 
 
     }
@@ -92,8 +100,141 @@ public class LoginTest {
     @Test
     public void loginAsAnLC() {
 
+        user = getUser("user1");
+        
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        driver.getPageSource();
+        dashboardPage = loginPage
+                .clickOnLCSelector()
+                .setInputUsername(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        dashboardPage.dismissDoItLater();
+        scrollDown(driver);
+        assertTrue(dashboardPage.isOpen(user.getUserData().getName()));
+
+
+        //loginPage = dashboardPage.logout();
+        //assertTrue(loginPage.isOpen());
 
     }
+
+    @Test
+    public void unsuccessfulLCLoginInvalidData() {
+
+        user = getUser("lcprod-fail");
+       
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        loginPage
+                .clickOnLCSelector()
+                .setInputUsername(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        //for some reason, it is necessary to click twice in submit button
+        loginPage.clickOnSubmitButton();
+        assertTrue(loginPage.incorrectUserOrPassMsgAreDisplayed());
+
+    }
+
+    @Test
+    public void unsuccessfulLCLoginEmptyUsername() {
+
+        user = getUser("lcprod-empty-user");
+
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        loginPage
+                .clickOnLCSelector()
+                .setInputUsername(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        //for some reason, it is necessary to click twice in submit button
+        loginPage.clickOnSubmitButton();
+        assertTrue(loginPage.incorrectUserMsgIsDisplayed());
+
+    }
+
+    @Test
+    public void unsuccessfulLCLoginEmptyPassword() {
+
+        user = getUser("lcprod-empty-password");
+
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        loginPage
+                .clickOnLCSelector()
+                .setInputUsername(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        //for some reason, it is necessary to click twice in submit button
+        loginPage.clickOnSubmitButton();
+        assertTrue(loginPage.incorrectPassMsgIsDisplayed());
+
+    }
+
+    @Test
+    public void loginAsAnLG() {
+
+        user = getUser("lgprod");
+
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        dashboardPage = loginPage
+                .setInputEmail(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        assertTrue(dashboardPage.isOpen(user.getUserData().getName()));
+
+        //assertTrue(loginPage.isOpen());
+
+    }
+
+    @Test
+    public void unsuccessfulLGLoginInvalidData() {
+
+        user = getUser("lcprod-fail");
+
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        loginPage
+                .setInputEmail(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        assertTrue(loginPage.incorrectMailOrPassMsgAreDisplayed());
+
+    }
+
+    @Test
+    public void unsuccessfulLGLoginEmptyUser() {
+
+        user = getUser("lgprod-empty-user");
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        loginPage
+                .setInputEmail(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        assertTrue(loginPage.incorrectMailIsDisplayed());
+
+    }
+
+    @Test
+    public void unsuccessfulLGLoginEmptyPass() {
+
+        user = getUser("lgprod-empty-password");
+        loginPage = basePage.clickOnLoginButton();
+        //assertTrue(loginPage.isOpen());
+        loginPage
+                .setInputEmail(user.getUserData().getUser())
+                .setInputPassword(user.getUserData().getPassword())
+                .clickOnSubmitButton();
+        assertTrue(loginPage.incorrectPassMsgIsDisplayed());
+
+    }
+
+
 
 
 }

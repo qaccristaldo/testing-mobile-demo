@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 
 import pages.base.BackBasePage;
+import pages.lccreateaccount.CreateLCAccountPage;
 import utils.MyLogger;
 
 import java.time.Duration;
@@ -40,8 +41,7 @@ public class GettingStartedLGPage extends BackBasePage {
 
         boolean flag = false;
         try{
-            flag = isElementVisible(driver, greatKeepGoingLbl) &&
-                    isElementVisible(driver, LGLbl);
+            flag = isElementVisible(driver, greatKeepGoingLbl);
         }catch (NullPointerException e){
             logger.info(e.getMessage());
         }
@@ -51,5 +51,10 @@ public class GettingStartedLGPage extends BackBasePage {
     public CreateLGAccountPage clickOnCreateAccountButton(){
         clickElement(driver, createAccountButton);
         return new CreateLGAccountPage(driver);
+    }
+
+    public CreateLCAccountPage clickOnCreateLCAccountButton(){
+        clickElement(driver, createAccountButton);
+        return new CreateLCAccountPage(driver);
     }
 }

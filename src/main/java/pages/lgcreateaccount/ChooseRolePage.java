@@ -30,6 +30,9 @@ public class ChooseRolePage  extends BackBasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().text(\"ELEGIR CUENTA DE TUTOR\")")
     private WebElement selectLGRoleButton;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().text(\"ELEGIR CUENTA DE MENTOR\")")
+    private WebElement selectLCCRoleButton;
+
     public ChooseRolePage(AndroidDriver driver) {
         super(driver);
         this.driver = driver;
@@ -50,6 +53,12 @@ public class ChooseRolePage  extends BackBasePage {
     public GettingStartedLGPage clickOnSelectLGRoleButton(){
         scrollToElement(driver, Constants.SELECT_GUARDIAN_ACCOUNT);
         clickElement(driver, selectLGRoleButton);
+        return new GettingStartedLGPage(driver);
+    }
+
+public GettingStartedLGPage clickOnSelectLCRoleButton(){
+        scrollToElement(driver, Constants.SELECT_MENTOR_ACCOUNT);
+        clickElement(driver, selectLCCRoleButton);
         return new GettingStartedLGPage(driver);
     }
 

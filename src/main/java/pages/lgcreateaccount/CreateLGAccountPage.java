@@ -1,5 +1,6 @@
 package pages.lgcreateaccount;
 
+import pages.enrollment.EnrollmentPage;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 
 import pages.base.BackBasePage;
+import utils.GetProperty;
 import utils.MyLogger;
 
 import java.time.Duration;
@@ -23,6 +25,8 @@ public class CreateLGAccountPage extends BackBasePage {
 
     private AndroidDriver driver;
     static Logger logger = MyLogger.getLogger();
+    static String file = "local.properties";
+
 
     //@AndroidFindBy(xpath = "//android.view.View[@text=\"First name\"]/following-sibling::android.view.View/android.widget.EditText")
     @AndroidFindBy(xpath = "//*[@hint = 'First name']")
@@ -109,7 +113,7 @@ public class CreateLGAccountPage extends BackBasePage {
     public CreateLGAccountPage(AndroidDriver driver) {
         super(driver);
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(5)), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(15)), this);
     }
 
     public CreateLGAccountPage setFirstNameInput() {
@@ -127,7 +131,8 @@ public class CreateLGAccountPage extends BackBasePage {
     }
 
     public CreateLGAccountPage setEmailInput() {
-        String email = generateRandomEmail(10);
+        //String email = GetProperty.getProperties(file, "temp_mail");
+        String email = generateRandomEmail(8);
         logger.info(String.format("Email = %s",email));
         typeOnElement(driver, emailInput, email);
         return this;
@@ -190,27 +195,17 @@ public class CreateLGAccountPage extends BackBasePage {
     public CreateLGAccountPage setOptToReceiveMsg() {
         clickElement(driver, optionCheckBox);
         clickElement(driver, contactPreferenceDropdown);
+        scrollToElement(driver, "Email");
         clickElement(driver, contactEmailSelector);
         forceWait(3000);
-
-        /*
-        System.out.println(contactPreferenceDropdown.getText());
-
-        // clickElement(driver, contactPreferenceDropdown);
-        //contactPreferenceList.forEach(element -> System.out.println(element.getText()));
-        forceWait(1000);
-        //clickElement(driver, optionCheckBox);
-        clickElement(driver, optionCheckBox);
-        System.out.println(contactPreferenceDropdown.getText());
-
-         */
 
         return this;
     }
 
-    public void clickOnSignUpButton(){
+    public EnrollmentPage clickOnSignUpButton(){
         scrollToElement(driver, "Sign Up");
         clickElement(driver, signUpButton);
+        return new EnrollmentPage(driver);
     }
 
 

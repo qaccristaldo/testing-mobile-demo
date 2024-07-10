@@ -139,6 +139,7 @@ public class LoginPage extends BackBasePage {
     }
 
     public DashboardPage clickOnSubmitButton(){
+        driver.getPageSource();
         clickElement(driver, submitButton);
         return new DashboardPage(driver);
     }
